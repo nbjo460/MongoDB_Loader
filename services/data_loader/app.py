@@ -5,3 +5,8 @@ from dal import Dal
 app = fastapi.FastAPI()
 
 dal = Dal()
+
+@app.get("/load")
+def load_db():
+    pass
+#  mongodb://root:12345@mongodb-community-server:27017/
