@@ -27,10 +27,11 @@ class Dal:
         self.create_data_first_time()
     @connection
     def create_data_first_time(self, client):
-        db = client.menachem
-        data = db.data
+        db = client.enemy_silodier
+        data = db.soldier_details
         data.insert_one({"_id":1, "first name": "menachem", "last name":"yarhi"})
         print("added")
+
     @connection
     def load_data(self, client):
         db = client.menachem
