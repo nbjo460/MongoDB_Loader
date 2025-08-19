@@ -1,7 +1,13 @@
 import fastapi
 from dal import Dal
-# import dal
 
 app = fastapi.FastAPI()
 
 dal = Dal()
+
+@app.get("/")
+def root():
+    return {}
+@app.get("/load")
+def load_db():
+    return {1:dal.load_data()}
