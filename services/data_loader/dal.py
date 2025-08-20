@@ -35,9 +35,12 @@ class Dal:
 
 
     def create_data_first_time(self):
-        first_soldier = Soldier( "moshe", "shulman", "+vdvffd", "4")
-        self.insert_soldier(first_soldier)
-        print("first added")
+        first_soldier = Soldier( "12","moshe", "shulman", "+vdvffd", "4")
+        try:
+            self.insert_soldier(first_soldier)
+            print("first added")
+        except:
+            pass
 
     @connection
     def insert_soldier(self, collection, soldier : Soldier):
