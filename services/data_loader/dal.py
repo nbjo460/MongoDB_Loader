@@ -1,10 +1,8 @@
+import os
 import json
 from bson import json_util
 from pymongo import MongoClient
-import os
-
 from soldier import Soldier
-
 
 def connection(func):
     def wrapper(self, *args, **kwargs):
@@ -27,7 +25,6 @@ def connection(func):
 
     return wrapper
 
-
 class Dal:
     def __init__(self):
         host = os.getenv("HOST")
@@ -36,14 +33,14 @@ class Dal:
         self.URI = f"mongodb://{user}:{password}@{host}/"
         self.create_data_first_time()
 
-    @connection
-    def create_data_first_time(self, collection):
+
+    def create_data_first_time(self):
         first_soldier = Soldier( "moshe", "shulman", "+vdvffd", "4")
-        self.insert_one_soldier(first_soldier, collection)
+        self.insert_soldier(first_soldier)
         print("first added")
 
-    @staticmethod
-    def insert_one_soldier(soldier : Soldier, collection):
+    @connection
+    def insert_soldier(self, collection, soldier : Soldier):
         collection.insert_one(soldier.to_dict())
         print("Added one")
 
@@ -53,3 +50,16 @@ class Dal:
         result = json.loads(json_util.dumps(people))
         print("loaded")
         return result
+
+    @connection
+    def delete_soldier(self, collection, _id):
+        if collection.find_one({"_id":_id}):
+            collection.delete_one({"_id":_id})
+            return "Deleted"
+        return "Deletion failed"
+
+    @connection
+    def update_soldier(self, collection, _id, parameters : dict):
+        result = collection.updateOne({"_id":_id},{"$set":parameters})
+        if result.modified_count > 0: return "Success"
+        else: return "Failed to update"
