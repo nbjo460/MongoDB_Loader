@@ -56,13 +56,13 @@ class Dal:
 
     @connection
     def delete_soldier(self, collection, _id):
-        if collection.find_one({"_id":_id}):
-            collection.delete_one({"_id":_id})
-            return "Deleted"
-        return "Deletion failed"
+        _id = str(_id)
+        result = collection.delete_one({"_id":_id})
+        return "Deleted" if result.deleted_count > 0 else  "Deletion failed"
 
     @connection
     def update_soldier(self, collection, _id, parameters : dict):
-        result = collection.updateOne({"_id":_id},{"$set":parameters})
+        _id = str(_id)
+        result = collection.update_one({"_id":_id},{"$set":parameters})
         if result.modified_count > 0: return "Success"
         else: return "Failed to update"
