@@ -10,4 +10,4 @@ def root():
     return {}
 @app.get("/load")
 def load_db():
-    return {1:dal.load_data()}
+    return dal.load_data()

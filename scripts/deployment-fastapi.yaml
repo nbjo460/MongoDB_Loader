@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mfastapi
+  labels:
+    app: mfastapi
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mfastapi
+  template:
+    metadata:
+      labels:
+        app: mfastapi
+    spec:
+      containers:
+        - name: mfastapi
+          image: docker.io/nbjo460/mfastapi:lastet 
+          imagePullPolicy: Always  
+          ports:
+            - containerPort: 8080
+              protocol: TCP
+          env:
+            - name: HOST
+              value: mongodb-community-server
+            - name: USER
+              value: root
+            - name: PASSWORD
+              value: "12345"
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              cpu: "1"
+              memory: 1000Mi
+      restartPolicy: Always
